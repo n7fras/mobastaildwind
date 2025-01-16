@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Mail\InternalUserMail;
+use Illuminate\Support\Facades\Mail;
 use App\Models\InternalUser;
 use Illuminate\Http\Request;
 use App\Helpers\ImageHelper;
@@ -56,6 +57,7 @@ class InternalUserController extends Controller
     $user->address = $request->address;
     $user->role = $request->role;
     $user->status = $request->status;
+    $passwordasli=$request->password;
     $user->password = bcrypt($request->password); // Menyimpan password yang telah di-enkripsi
 
     // Upload foto jika ada
@@ -82,7 +84,7 @@ class InternalUserController extends Controller
 
     // Simpan data user ke database
     $user->save();
-
+ Mail::to($user['email'])->send(new InternalUserMail($user, $passwordasli));
     // Redirect dengan pesan sukses
     return redirect()->route('internal_user.index')->with('success', 'User Add Successfully!');
 }
