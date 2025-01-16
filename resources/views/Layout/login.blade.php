@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login MOBAS</title>
+    <title>MOBAS</title>
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('image/Logofix.png')}}">
 </head>
 <body>
     @if (session()->has('error'))

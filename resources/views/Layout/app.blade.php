@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{asset('image/Logofix.png')}}">
-    <title>Matrix Template - The Ultimate Multipurpose admin template</title>
+    <title>MOBAS</title>
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/extra-libs/multicheck/multicheck.css') }}">
     <link href="{{ asset('backend/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}" rel="stylesheet">
@@ -75,7 +75,7 @@
                     <!-- ============================================================== -->
                     <!-- Logo -->
                     <!-- ============================================================== -->
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="{{url('/dashboard')}}">
                         <!-- Logo icon -->
                        
                             <b class="logo-icon ">
@@ -199,7 +199,10 @@
                             @if(Auth::user()->foto)
                             <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{asset('storage/img-user/'.Auth::user()->foto)}}" alt="user" class="rounded-circle" width="31"></a>
                             @else
-                            <img src="assets/images/users/1.jpg" alt="user" class="rounded-circle" width="31">
+                            <a  class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{{asset('storage/img-user/Kilua.jpg')}}" alt="user" class="rounded-circle"  style=" width: 35px; height: 35px">
+    
+                            </a>                            
                             @endif
                             <div class="dropdown-menu dropdown-menu-right user-dd animated">
                                 <a class="dropdown-item" href="javascript:void(0)"><i class="ti-user m-r-5 m-l-5"></i> My Profile</a>
@@ -208,7 +211,16 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="javascript:void(0)"><i class="ti-settings m-r-5 m-l-5"></i> Account Setting</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-power-off m-r-5 m-l-5"></i> Logout</a>
+                                <a class="dropdown-item" href="#" 
+                                   onclick="if(confirm('Apakah Anda yakin ingin logout?')) { event.preventDefault(); document.getElementById('logout-form').submit(); }">
+                                    <i class="fa fa-power-off m-r-5 m-l-5"></i> Logout
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                                <div class="dropdown-divider"></div>
+                                
+                             
                                 <div class="dropdown-divider"></div>
                                 <div class="p-l-30 p-10"><a href="javascript:void(0)" class="btn btn-sm btn-success btn-rounded">View Profile</a></div>
                             </div>
@@ -250,7 +262,7 @@
                
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-account-multiple"></i><span class="hide-menu">Customer</span></a>
                             <ul aria-expanded="false" class="collapse  first-level" style="background-color: #00a373">
-                                <li class="sidebar-item"><a href="index2.html" class="sidebar-link"><i class="mdi mdi-account-multiple-check"></i><span class="hide-menu"> Data Customer</span></a></li>
+                                <li class="sidebar-item"><a href="{{url('/customer')}}" class="sidebar-link"><i class="mdi mdi-account-multiple-check"></i><span class="hide-menu"> Data Customer</span></a></li>
                                 <li class="sidebar-item"><a href="pages-gallery.html" class="sidebar-link"><i class="mdi mdi-cog"></i><span class="hide-menu"> Log Activity Customer </span></a></li>
                             </ul>
                         </li>

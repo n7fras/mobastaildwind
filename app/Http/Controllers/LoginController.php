@@ -12,6 +12,7 @@ class LoginController extends Controller
         return view('Layout.login', ['title' => 'Login']);
     }
 
+
     // Menangani proses autentikasi login
     public function authLogin(Request $request){
         $credentials = $request->validate([

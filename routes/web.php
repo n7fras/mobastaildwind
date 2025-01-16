@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\InternalUserController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CustomerController;
 /*
 |-------------------------------------------------------------------------- 
 | Web Routes 
@@ -20,6 +21,7 @@ use App\Http\Controllers\ProductController;
 Route::get('/', [LoginController::class, 'login'])->name('login'); 
 Route::post('/login', [LoginController::class, 'authLogin'])->name('authLogin');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
 
 // Middleware Group for Authenticated Users
 Route::middleware(['auth', 'check.status'])->group(function () {
@@ -48,3 +50,7 @@ Route::post('/internal_user/post', [InternalUserController::class, 'store'])->na
 Route::post('/internal_user/{id}/deactivate', [InternalUserController::class, 'deactivate'])->name('internal_user.deactivate');
 Route::post('/internal_user/{id}/reactivate', [InternalUserController::class, 'reactivate'])->name('internal_user.reactivate');
 Route::get('/internal_user/search', [InternalUserController::class, 'search'])->name('internal_user.search');
+
+
+// customer
+route::get('/customer',[CustomerController::class,'index'])->name('customer.data');
