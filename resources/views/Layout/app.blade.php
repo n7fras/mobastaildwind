@@ -209,8 +209,8 @@
                                 <a class="dropdown-item" href="javascript:void(0)"><i class="ti-wallet m-r-5 m-l-5"></i> My Balance</a>
                                 <a class="dropdown-item" href="javascript:void(0)"><i class="ti-email m-r-5 m-l-5"></i> Inbox</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)"><i class="ti-settings m-r-5 m-l-5"></i> Account Setting</a>
-                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{url('/change-password')}}"><i class="ti-settings m-r-5 m-l-5"></i> Reset Password</a>
+                                
                                 <a class="dropdown-item" href="#" 
                                    onclick="if(confirm('Apakah Anda yakin ingin logout?')) { event.preventDefault(); document.getElementById('logout-form').submit(); }">
                                     <i class="fa fa-power-off m-r-5 m-l-5"></i> Logout
@@ -295,7 +295,7 @@
             </div>
           
            <footer class="footer text-center mb-0 "style="padding-bottom: 0px">
-                Application by Fras, 2022.  <a href="https://wrappixel.com">WrapPixel</a>.
+                Application by Frasetya, Fiqriyah, Hans, Adrian, Rizky.R 2024. 
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->

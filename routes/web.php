@@ -21,6 +21,11 @@ use App\Http\Controllers\CustomerController;
 Route::get('/', [LoginController::class, 'login'])->name('login'); 
 Route::post('/login', [LoginController::class, 'authLogin'])->name('authLogin');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+// Change Password Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/change-password', [InternalUserController::class, 'changePasswordForm'])->name('change-password.form');
+    Route::post('/change-password', [InternalUserController::class, 'updatePassword'])->name('change-password.update');
+});
 
 
 // Middleware Group for Authenticated Users

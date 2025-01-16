@@ -13,16 +13,18 @@ class InternalUserController extends Controller
     {
 
         $users = InternalUser::orderBy('id', 'asc')->get();
+        $judul='List User internal';
 
         return view('V_Userinternal.userinternal', [
-            'judul' => 'Internal User',
             'users' => $users,
+            'judul'=>$judul
         ]);
        
     }
     public function create()    
     {
         return view('V_Userinternal.create',
+        
         [
             'judul' => 'Add Internal User',
         ]);
@@ -197,6 +199,41 @@ public function deactivate($id)
         // Redirect dengan pesan sukses
         return redirect()->route('internal_user.index')->with('success', 'User updated successfully!');
     }
+    public function changePasswordForm()
+{
+    $judul = 'Change Password';
+    return view('V_Userinternal.change-password', compact('judul'));
+}
+
+public function updatePassword(Request $request)
+{
+    // Validasi input
+    $request->validate([
+        'old_password' => 'required',
+        'password' => 'required|string|min:6|confirmed', // Password harus dikonfirmasi
+    ], [
+        'old_password.required' => 'Password lama wajib diisi.',
+        'password.confirmed' => 'Konfirmasi password tidak sesuai.',
+        'password.min' => 'Password baru harus memiliki minimal 6 karakter.',
+        'password.required' => 'Password baru wajib diisi.',
+    ]);
+
+    // Ambil user yang sedang login
+    $user = auth()->user();
+
+    // Verifikasi password lama
+    if (!\Hash::check($request->old_password, $user->password)) {
+        return back()->withErrors(['old_password' => 'Password lama tidak sesuai.']);
+    }
+
+    // Update password
+    $user->password = bcrypt($request->password);
+    $user->save();
+
+    // Redirect dengan pesan sukses
+    return redirect()->route('internal_user.index')->with('success', 'Password berhasil diperbarui.');
+}
+
     
 }
 
