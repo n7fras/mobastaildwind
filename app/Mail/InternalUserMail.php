@@ -27,7 +27,7 @@ class InternalUserMail extends Mailable
     public function build()
     {
         return $this->subject('Berikut informasi akun anda')
-                    ->view('V_Userinternal.email')
+                    ->view('backend.V_Userinternal.email')
                     ->with(['user'=>$this->user,
                             'password'=>$this->password
                 ]);

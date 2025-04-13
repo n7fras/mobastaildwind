@@ -19,4 +19,7 @@ class Product extends Model
         'product_image',
         'product_stock',
     ];
+    public function internaluser(){
+        return $this->belongsTo(InternalUser::class,'user_id','id');
+    }
 }

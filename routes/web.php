@@ -6,6 +6,8 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\InternalUserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\MechanicController;
+use App\Http\Controllers\BerandaController;
 /*
 |-------------------------------------------------------------------------- 
 | Web Routes 
@@ -18,7 +20,7 @@ use App\Http\Controllers\CustomerController;
 */
 
 // Authentication Routes
-Route::get('/', [LoginController::class, 'login'])->name('login'); 
+Route::get('/login_mobas', [LoginController::class, 'login'])->name('login'); 
 Route::post('/login', [LoginController::class, 'authLogin'])->name('authLogin');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 // Change Password Routes
@@ -26,6 +28,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/change-password', [InternalUserController::class, 'changePasswordForm'])->name('change-password.form');
     Route::post('/change-password', [InternalUserController::class, 'updatePassword'])->name('change-password.update');
 });
+
+
+//frontend
+
+// Frontend 
+Route::get('/', [BerandaController::class, 'index'])->name('beranda'); 
+Route::get('frontend/product/detail/{id}', [ProductController::class, 'detail_product'])->name('product.detail_product');
 
 
 // Middleware Group for Authenticated Users
@@ -45,9 +54,10 @@ Route::middleware(['auth', 'check.status'])->group(function () {
     Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
     Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
     Route::get('/product/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
-    Route::post('/product/update/{id}', [ProductController::class, 'update'])->name('product.update');
+    Route::put('/product/update/{id}', [ProductController::class, 'update'])->name('product.update');
     Route::get('/product/addstock/{id}', [ProductController::class, 'addstock'])->name('product.addstock');
     Route::put('/product/updatestock/{id}', [ProductController::class, 'updatestock'])->name('product.updatestock');
+    Route::get('/product/detail/{id}', [ProductController::class, 'detail'])->name('product.detail');
 });
 
 // Internal User Operations
@@ -59,3 +69,9 @@ Route::get('/internal_user/search', [InternalUserController::class, 'search'])->
 
 // customer
 route::get('/customer',[CustomerController::class,'index'])->name('customer.data');
+route::get('/customer/activity_log',[CustomerController::class,'log'])->name('customer.log_activity');
+
+
+// mechanic
+route::get('/mechanic',[MechanicController::class,'index'])->name('mechanic.data');
+route::get('/mechanic/activity_log',[MechanicController::class,'log'])->name('mechanic.log_activity');

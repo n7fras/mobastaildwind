@@ -9,7 +9,7 @@ class LoginController extends Controller
 {
     // Menampilkan halaman login
     public function login(){
-        return view('Layout.login', ['title' => 'Login']);
+        return view('backend.Layout.login', ['title' => 'Login']);
     }
 
 
@@ -47,6 +47,6 @@ class LoginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
+        return redirect('/login_mobas');
     }
 }

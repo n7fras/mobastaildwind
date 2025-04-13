@@ -15,7 +15,7 @@ class InternalUserController extends Controller
         $users = InternalUser::orderBy('id', 'asc')->get();
         $judul='List User internal';
 
-        return view('V_Userinternal.userinternal', [
+        return view('backend.V_Userinternal.userinternal', [
             'users' => $users,
             'judul'=>$judul
         ]);
@@ -23,7 +23,7 @@ class InternalUserController extends Controller
     }
     public function create()    
     {
-        return view('V_Userinternal.create',
+        return view('backend.V_Userinternal.create',
         
         [
             'judul' => 'Add Internal User',
@@ -122,7 +122,7 @@ public function deactivate($id)
         $user = InternalUser::findOrFail($id);
         $judul = 'Edit User'; // Menetapkan variabel $judul
     
-        return view('V_Userinternal.edit', [
+        return view('backend.V_Userinternal.edit', [
             'edit' => $user,
             'judul' => $judul, // Menggunakan kunci yang benar
         ]);
@@ -202,7 +202,7 @@ public function deactivate($id)
     public function changePasswordForm()
 {
     $judul = 'Change Password';
-    return view('V_Userinternal.change-password', compact('judul'));
+    return view('backend.V_Userinternal.change-password', compact('judul'));
 }
 
 public function updatePassword(Request $request)

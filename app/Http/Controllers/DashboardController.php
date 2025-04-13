@@ -21,7 +21,7 @@ class DashboardController extends Controller
             return $sale;
         })->toArray(); // Mengubah koleksi menjadi array
    
-        return view('submenu.dashboard', compact('sales'));
+        return view('backend.submenu.dashboard', compact('sales'));
     }
     
 

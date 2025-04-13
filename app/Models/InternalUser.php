@@ -34,4 +34,8 @@ class InternalUser extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+    public function proudcts(){
+        return $this->hasMany(Product::class,'user_id','id');
+        
+    }
 }

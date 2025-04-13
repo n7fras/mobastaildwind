@@ -4,24 +4,36 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+
 class ProductController extends Controller
 {
     //
     public function index()
     {
-        return view('v_product.index', [
+        return view('backend.v_product.index', [
             'judul' => 'Data Product',
             'products' => Product::all(),
         ]);
 
     }
+    public function detail_product($id)
+{
+    $product = Product::findOrFail($id);
+    return view('frontend.v_product.detail', [
+        'judul' => 'Detail Product',
+        'product' => $product
+    ]);
+}
+
     public function create()
     {
              // Membuat kode produk otomatis
              $lastProduct = Product::orderBy('id', 'desc')->first();
              $nextNumber = $lastProduct ? intval(substr($lastProduct->product_code, 4)) + 1 : 1;
              $productcode = 'PRD-' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
-        return view('v_product.create', [
+        return view('backend.v_product.create', [
             'judul' => 'Create Product',
             'productcode'=>$productcode
         ]);
@@ -50,11 +62,10 @@ class ProductController extends Controller
         $productcode = 'PRD-' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
  
     
-        
-        
-    
+
         // Menyimpan data produk
         $product = new Product();
+        $product->user_id = auth()->user()->id;
         $product->product_code = $productcode;
         $product->product_name = $request->product_name;
         $product->product_price = $request->product_price;
@@ -62,6 +73,7 @@ class ProductController extends Controller
         $product->product_type = $request->product_type;
         $product->product_description = $request->product_description;
         $product->merk = $request->merk;
+        $product->status = $request->status ?? 0;
 
         $product->foto = isset($originalFileName) ? $originalFileName : null;
         // Upload foto
@@ -85,7 +97,7 @@ class ProductController extends Controller
             $product->foto = $originalFileName;
         }
         $product->save();
-        \Log::info('Request Data: ', $request->all());
+        Log::info('Request Data: ', $request->all());
 
         return redirect('/product')->with('success', 'Product has been added');
     }
@@ -96,7 +108,7 @@ class ProductController extends Controller
 public function addstock(Request $request, $id)
 {
     $Product = Product::findOrFail($id);
-   return view('v_product.addstock', [
+   return view('backend.v_product.addstock', [
        'judul' => 'Add Stock',
        'Product' => $Product
 
@@ -129,7 +141,7 @@ public function updatestock(Request $request, $id)
     $product = Product::findOrFail($id);
 
     // Kirim data ke tampilan untuk di-edit
-    return view('v_product.edit', [
+    return view('backend.v_product.edit', [
         'judul' => 'Edit Product',
         'product' => $product
     ]);
@@ -140,27 +152,33 @@ public function update(Request $request, $id)
    
 
     $product = Product::findOrFail($id);
-    // update data product
-        $product->product_name = $request->product_name;
-        $product->product_price = $request->product_price;
-        $product->product_type = $request->product_type;
-        $product->product_description = $request->product_description;
-        $product->merk = $request->merk;
-        $product->foto = isset($originalFileName) ? $originalFileName : null;
+    $fotolama = $product->foto;
+
     if ($request->hasFile('foto')) {
         $file = $request->file('foto');
         $extension = $file->getClientOriginalExtension();
         $originalFileName = date('YmdHis') . '_' . uniqid() . '.' . $extension;
 
-        $destinationPath = public_path('storage/img-product');
-        if (!file_exists($destinationPath)) {
-            mkdir($destinationPath, 0777, true);
+        $file->storeAs('public/img-product', $originalFileName);
+
+
+        if ($fotolama && Storage::exists('public/img-product/' . $fotolama)) {
+            Storage::delete('public/img-product/' . $fotolama);
         }
-
-        $file->move($destinationPath, $originalFileName);
-        $product->foto = $originalFileName;
+    } else {
+        $originalFileName = $fotolama;
     }
+        
+    $product->foto = $originalFileName;
+        // update data product
+        $product->product_name = $request->product_name;
+        $product->product_price = $request->product_price;
+        $product->product_type = $request->product_type;
+        $product->product_description = $request->product_description;
+        $product->merk = $request->merk;
+        $product->status = $request->status ?? 0;
 
+        //simpan ke database
     $product->save();
 
     return redirect('/product')->with('success', 'Product has been updated');
@@ -171,4 +189,3 @@ public function update(Request $request, $id)
     }
 
 
-    
